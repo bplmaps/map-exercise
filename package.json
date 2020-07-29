@@ -1,0 +1,22 @@
+{
+  "name": "map-exercise",
+  "version": "0.1.0",
+  "description": "A lightweight web app that combines a Microsoft Form and a LMEC Digital Collections object into a single view, for students to complete close-looking exericse.",
+  "main": "index.js",
+  "author": "Garrett Dash Nelson",
+  "license": "ISC",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html --public-url '.'",
+    "sync": "rsync -r -a -v -e ssh --delete dist/ geoservices@172.29.102.73:/var/www/geoservices/map-exercise"
+  },
+  "dependencies": {
+    "ol": "^6.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "parcel-bundler": "^1.12.4",
+    "stylus": "^0.54.8"
+  }
+}
