@@ -1,34 +1,6 @@
-# empty-project
+# map-exercise
 
-Empty project.
+A lightweight web app that combines a Microsoft Form and a LMEC Digital Collections object into a single view, for students to complete close-looking exercise.
 
-## Building and running on localhost
 
-First install dependencies:
-
-```sh
-npm install
-```
-
-To run in hot module reloading mode:
-
-```sh
-npm start
-```
-
-To create a production build:
-
-```sh
-npm run build-prod
-```
-
-## Running
-
-```sh
-node dist/bundle.js
-```
-
-## Credits
-
-Made with [createapp.dev](https://createapp.dev/)
 
