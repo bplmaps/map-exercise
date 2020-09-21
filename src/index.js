@@ -10,7 +10,7 @@ import './style.styl'
 const hashVars = window.location.hash.substring(1).split('$');
 
 // We should have 5 hash variables separated by $ character.
-// 0 = ID of a Microsoft Form
+// 0 = ID of a Google Form
 // 1 = Digital Commonwealth ID
 // 2 = Sequence Number
 // 3 = Canvas Number
@@ -33,8 +33,9 @@ if (hashVars.length < 5) {
 
 function initialize(){
 
-    // Set the Microsoft Office form to the source of the inline frame
-    document.getElementById('form-frame').src = `https://forms.office.com/Pages/ResponsePage.aspx?id=${hashVars[0]}&embed=true`;
+    // Set the Google form to the source of the inline frame
+    document.getElementById('form-frame').src = `https://docs.google.com/forms/d/e/${hashVars[0]}/viewform?embedded=true`;
+
     
     // Fetch the Manifest
     fetch(`https://www.digitalcommonwealth.org/search/commonwealth:${hashVars[1]}/manifest.json`)
@@ -46,7 +47,7 @@ function initialize(){
 }
 
 function failLoad(){
-    document.body.innerHTML = '<h1>Page failed to load. This URL is formatted incorrectly.</h1>';
+    document.body.innerHTML = '<h1 class="error">Page failed to load. This URL is formatted incorrectly.</h1>';
 }
 
 function parseManifest(manifest) {

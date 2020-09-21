@@ -6,17 +6,21 @@
   "author": "Garrett Dash Nelson",
   "license": "ISC",
   "scripts": {
-    "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html --public-url '.'",
+    "dev": "parcel src/index.html src/generate/index.html",
+    "build": "parcel build src/index.html src/generate/index.html --public-url 'https://geoservices.leventhalmap.org/map-exercise'",
     "sync": "rsync -r -a -v -e ssh --delete dist/ geoservices@172.29.102.73:/var/www/geoservices/map-exercise"
   },
   "dependencies": {
-    "ol": "^6.4.0"
+    "ol": "^6.4.0",
+    "vue": "^2.6.12",
+    "vue-hot-reload-api": "^2.3.4"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.10.4",
+    "@vue/component-compiler-utils": "^3.2.0",
     "parcel-bundler": "^1.12.4",
-    "stylus": "^0.54.8"
+    "stylus": "^0.54.8",
+    "vue-template-compiler": "^2.6.12"
   }
 }
