@@ -11,7 +11,7 @@ const hashVars = window.location.hash.substring(1).split('$');
 
 // We should have 5 hash variables separated by $ character.
 // 0 = ID of a Google Form
-// 1 = Digital Commonwealth ID
+// 1 = Digital Commonwealth ID -- OR Manifest if prefixed by "m:" -- OR Image if prefixed by "i:"
 // 2 = Sequence Number
 // 3 = Canvas Number
 // 4 = Image Number
@@ -23,7 +23,7 @@ map = new Map({
 });
 
 // Check if we have 5 vars in the hash
-if (hashVars.length < 5) {
+if (hashVars.length < 2) {
     failLoad();
 }
  else {
@@ -36,13 +36,28 @@ function initialize(){
     // Set the Google form to the source of the inline frame
     document.getElementById('form-frame').src = `https://docs.google.com/forms/d/e/${hashVars[0]}/viewform?embedded=true`;
 
+    if(hashVars[1].slice(0,3)==='m::') {
+        fetch(hashVars[1].slice(3))
+        .then(response => response.json())
+        .then(manifest => parseManifest(manifest))
+        .catch(failLoad);
+    }
+    
+    else if(hashVars[1].slice(0,3)==="i::") {
+        fetch(hashVars[1].slice(3))
+        .then(response => response.json())
+        .then(imageInfo => loadImage(imageInfo))
+        .catch(failLoad);
+    }
+
+    else {
     
     // Fetch the Manifest
     fetch(`https://www.digitalcommonwealth.org/search/commonwealth:${hashVars[1]}/manifest.json`)
         .then(response => response.json())
         .then(manifest => parseManifest(manifest))
         .catch(failLoad);
-    
+    }
 
 }
 
@@ -52,13 +67,11 @@ function failLoad(){
 
 function parseManifest(manifest) {
 
-    // console.log(manifest);
+    console.log(manifest);
 
     // First set the #map-title object to the Manifest's title metadata
-    document.getElementById('map-title').innerText = manifest.metadata.filter(x => x.label === 'Title')[0].value;
+    document.getElementById('map-title').innerText = manifest.label;
 
-    // Then set the permalink
-    document.getElementById('map-permalink').setAttribute('href', manifest.seeAlso);
 
     // Now get the Image endpoint using the sequence, canvas, image
     fetch(manifest.sequences[hashVars[2]].canvases[hashVars[3]].images[hashVars[4]].resource.service['@id'])
@@ -70,7 +83,9 @@ function parseManifest(manifest) {
 
 
 function loadImage(imageInfo) {
+    console.log("Loading image");
     var options = new IIIFInfo(imageInfo).getTileSourceOptions();
+    console.log(options);
     
     if (options === undefined || options.version === undefined) {
         return;
